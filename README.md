@@ -1,4 +1,5 @@
 #Deploying_Linux_Servers
+
 ##Description
 >This project is about learning a baseline installation of a Linux server and prepare it to host my catalog project web applications. Then I will secure my server from a number of attack vectors, install and configure a database server, and deploy one of your existing web applications onto it
 
@@ -60,7 +61,7 @@
 	9. Lock down the permissions to only let *catalog* role create tables: `# GRANT ALL ON SCHEMA public TO catalog;`.
 	10. Log out from PostgreSQL: `# \q`. Then return to the *grader* user: `$ exit`.
 	11. Inside the Flask application, the database connection is now performed with:
-```python
+```
 engine = create_engine('postgresql://catalog:sillypassword@localhost/catalog')
 ```
 	12. Setup the database with: `$ python /var/www/catalog/catalog/setup_database.py`.
@@ -85,7 +86,7 @@ Source: [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-s
 	3. Move inside that newly created folder: `$ cd /catalog_project_V3` and clone the catalog repository from Github: `$ git clone https://github.com/mouzah828/catalog_project_V3`.
 	4. Make a *catalog.wsgi* file to serve the application over the *mod_wsgi*. That file should look like this:
 
-```python
+```
 import sys
 import logging
 logging.basicConfig(stream=sys.stderr)
@@ -96,7 +97,7 @@ from application import app as application
 	2. Set it up in your server so that it functions correctly when visiting your server’s IP address in a browser
 		1. cd /etc/apache2/sites-available nano catalog.conf
 			> I Type the code below in the file and save it with ctrl+X then Y
-```python
+```
 <VirtualHost *:80>
   ServerName 13.233.233.138
   ServerAdmin admin@13.233.233.138
