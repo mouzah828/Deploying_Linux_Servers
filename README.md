@@ -1,5 +1,5 @@
 #Deploying_Linux_Servers
-##DEscription
+##Description
 >This project is about learning a baseline installation of a Linux server and prepare it to host my catalog project web applications. Then I will secure my server from a number of attack vectors, install and configure a database server, and deploy one of your existing web applications onto it
 
 ##The IP address and SSH port so your server can be accessed by the reviewer
@@ -96,7 +96,7 @@ from application import app as application
 	2. Set it up in your server so that it functions correctly when visiting your server’s IP address in a browser
 		1. cd /etc/apache2/sites-available nano catalog.conf
 			> I Type the code below in the file and save it with ctrl+X then Y
-		```python
+```python
 <VirtualHost *:80>
   ServerName 13.233.233.138
   ServerAdmin admin@13.233.233.138
@@ -114,7 +114,7 @@ from application import app as application
   LogLevel warn
   CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
-		```
+```
 		2. Disable the default Apache site, enable your flask app, and then restart Apache for the changes to take effect.
 			>Run these commands to do this:
 				`$ sudo a2dissite 000-default.conf`
