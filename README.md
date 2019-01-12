@@ -64,10 +64,10 @@
 	```engine = create_engine('postgresql://catalog:sillypassword@localhost/catalog')```
 	12. Setup the database with: `$ python /var/www/catalog/catalog/setup_database.py`.
 	13. To prevent potential attacks from the outer world we double check that no remote connections to the database are allowed. Open the following file: `$ sudo nano /etc/postgresql/9.3/main/pg_hba.conf` and edit it, if necessary, to make it look like this:
-`local   all             postgres                                peer
+```local   all             postgres                                peer
 local   all             all                                     peer
 host    all             all             127.0.0.1/32            md5
-host    all             all             ::1/128                 md5`.
+host    all             all             ::1/128                 md5```
 
 Source: [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps).
 
