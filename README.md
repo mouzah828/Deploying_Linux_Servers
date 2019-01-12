@@ -61,9 +61,7 @@
 	9. Lock down the permissions to only let *catalog* role create tables: `# GRANT ALL ON SCHEMA public TO catalog;`.
 	10. Log out from PostgreSQL: `# \q`. Then return to the *grader* user: `$ exit`.
 	11. Inside the Flask application, the database connection is now performed with:
-```
-engine = create_engine('postgresql://catalog:sillypassword@localhost/catalog')
-```
+	```engine = create_engine('postgresql://catalog:sillypassword@localhost/catalog')```
 	12. Setup the database with: `$ python /var/www/catalog/catalog/setup_database.py`.
 	13. To prevent potential attacks from the outer world we double check that no remote connections to the database are allowed. Open the following file: `$ sudo nano /etc/postgresql/9.3/main/pg_hba.conf` and edit it, if necessary, to make it look like this:
 ```
@@ -123,11 +121,9 @@ from application import app as application
 				`$ sudo service apache2 reload`
 			> When I check my browser I see Internal server error, and I use this command to solve the error
 				`$ sudo tail -100 /var/log/apache2/error.log`
-				I try my best to solve this issue but I still get this error *OperationalError: (sqlite3.OperationalError) unable to open database file (Backg
-round on this error at: http://sqlalche.me/e/e3q8)*
+				I try my best to solve this issue but I still get this error *OperationalError: (sqlite3.OperationalError) unable to open database file (Background on this error at: http://sqlalche.me/e/e3q8)*
 				I find all solution to change the permission to full access but I still get the same error
 
 ##A list of any third-party resources you made use of to complete this project
-
 I use this website to get instraction of how to Deploying python Flask web app on Amazon Lightsail
 https://hk.saowen.com/a/0a0048ca7141440d0553425e8df46b16cdf4c13f50df4c5888256393d34bb1b9
