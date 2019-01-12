@@ -64,10 +64,12 @@
 	```engine = create_engine('postgresql://catalog:sillypassword@localhost/catalog')```
 	12. Setup the database with: `$ python /var/www/catalog/catalog/setup_database.py`.
 	13. To prevent potential attacks from the outer world we double check that no remote connections to the database are allowed. Open the following file: `$ sudo nano /etc/postgresql/9.3/main/pg_hba.conf` and edit it, if necessary, to make it look like this:
-```local   all             postgres                                peer
+```
+local   all             postgres                                peer
 local   all             all                                     peer
 host    all             all             127.0.0.1/32            md5
-host    all             all             ::1/128                 md5```
+host    all             all             ::1/128                 md5
+```
 
 Source: [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps).
 
@@ -83,16 +85,19 @@ Source: [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-s
 	3. Move inside that newly created folder: `$ cd /catalog_project_V3` and clone the catalog repository from Github: `$ git clone https://github.com/mouzah828/catalog_project_V3`.
 	4. Make a *catalog.wsgi* file to serve the application over the *mod_wsgi*. That file should look like this:
 
-```import sys
+```python
+import sys
 import logging
 logging.basicConfig(stream=sys.stderr)
 sys.path.insert(0, "/var/www/catalog_project_V3/")
 
-from application import app as application```
+from application import app as application
+```
 	2. Set it up in your server so that it functions correctly when visiting your server’s IP address in a browser
 		1. cd /etc/apache2/sites-available nano catalog.conf
 			> I Type the code below in the file and save it with ctrl+X then Y
-```<VirtualHost *:80>
+```
+<VirtualHost *:80>
   ServerName 13.233.233.138
   ServerAdmin admin@13.233.233.138
   WSGIScriptAlias / /var/www/catalog_project_V3/catalog.wsgi
@@ -108,7 +113,8 @@ from application import app as application```
   ErrorLog ${APACHE_LOG_DIR}/error.log
   LogLevel warn
   CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>```
+</VirtualHost>
+```
 		2. Disable the default Apache site, enable your flask app, and then restart Apache for the changes to take effect.
 			>Run these commands to do this:
 				`$ sudo a2dissite 000-default.conf`
