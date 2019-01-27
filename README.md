@@ -4,11 +4,11 @@
 >This project is about learning a baseline installation of a Linux server and prepare it to host my catalog project web applications. Then I will secure my server from a number of attack vectors, install and configure a database server, and deploy one of your existing web applications onto it
 
 ##The IP address and SSH port so your server can be accessed by the reviewer
->IP address: 13.233.233.138
+>IP address: 13.127.190.211
 >SSH Port:2200
 
 ##The complete URL to your hosted web application
->http://13.233.233.138
+>http://13.127.190.211
 
 ##A summary of software you installed and configuration changes made
 1. Get my linux server.
@@ -80,39 +80,51 @@ Source: [DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-s
 
 7. Deploy the Item Catalog project.
 	1. Clone and setup your Item Catalog project from the Github repository
-		1. `$ cd /var/www`. Then: `$ sudo mkdir catalog_project_V3`.
-	2. Change owner for the *catalog* folder: `$ sudo chown -R grader:grader catalog_project_V3`.
-	3. Move inside that newly created folder: `$ cd /catalog_project_V3` and clone the catalog repository from Github: `$ git clone https://github.com/mouzah828/catalog_project_V3`.
+		1. `$ cd /var/www`. Then: `$ sudo mkdir catalog`.
+	2. Change owner for the *catalog* folder: `$ sudo chown -R grader:grader catalog`.
+	3. Move inside that newly created folder: `$ cd /catalog` and clone the catalog repository from Github: `$ git clone https://github.com/mouzah828/catalog_project_V3 catalog`.
 	4. Make a *catalog.wsgi* file to serve the application over the *mod_wsgi*. That file should look like this:
 
 ```python
+activate_this = '/var/www/catalog/catalog/venv/bin/activate_this.py'
+execfile(activate_this, dict(__file__=activate_this))
+
+#!/usr/bin/python
 import sys
 import logging
 logging.basicConfig(stream=sys.stderr)
-sys.path.insert(0, "/var/www/catalog_project_V3/")
+sys.path.insert(0,"/var/www/catalog/")
 
-from application import app as application
+from catalog import app as application
+application.secret_key = '12345'
 ```
+
+	5. Authenticate login through Google:
+		Add the complete file path for the client_secrets.json file in the __init__.py file;
+		>> change it from 'client_secrets.json' to '/var/www/catalog/catalog/client_secrets.json'
+
 	2. Set it up in your server so that it functions correctly when visiting your server’s IP address in a browser
 		1. cd /etc/apache2/sites-available nano catalog.conf
 			> I Type the code below in the file and save it with ctrl+X then Y
 ```
 <VirtualHost *:80>
-  ServerName 13.233.233.138
-  ServerAdmin admin@13.233.233.138
-  WSGIScriptAlias / /var/www/catalog_project_V3/catalog.wsgi
-  <Directory /var/www/catalog_project_V3/>
-      Order allow,deny
-      Allow from all
-  </Directory>
-  Alias /static /var/www/catalog_project_V3/catalog/static
-  <Directory /var/www/catalog_project_V3/static/>
-      Order allow,deny
-      Allow from all
-  </Directory>
-  ErrorLog ${APACHE_LOG_DIR}/error.log
-  LogLevel warn
-  CustomLog ${APACHE_LOG_DIR}/access.log combined
+    ServerName 13.127.190.211
+    ServerAdmin admin@13.127.190.211
+    WSGIScriptAlias / /var/www/catalog/catalog.wsgi
+    <Directory /var/www/catalog/catalog/>
+        Order allow,deny
+        Allow from all
+	Options -Indexes
+    </Directory>
+    Alias /static /var/www/catalog/catalog/static
+    <Directory /var/www/catalog/catalog/static/>
+        Order allow,deny
+        Allow from all
+	Options -Indexes
+    </Directory>
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    LogLevel warn
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 ```
 		2. Disable the default Apache site, enable your flask app, and then restart Apache for the changes to take effect.
